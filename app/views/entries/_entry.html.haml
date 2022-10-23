@@ -1,0 +1,10 @@
+%div{:id => "#{dom_id entry}"}
+  %tr 
+    %td 
+      %p= entry.price&.round(2)
+    %td 
+      %p= (entry.price / @exchange_rates[:EUR])&.round(2)
+    %td 
+      %p= (entry.price / @exchange_rates[:USD])&.round(2)
+    %td  
+      %p= entry.date    

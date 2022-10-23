@@ -1,0 +1,35 @@
+%header.navigation 
+  %div.back-to-home
+    %button.backbtn{href: "#", onclick: "javascript:history.back()",  }
+      %i.material-icons navigate_before
+  %p.raw-material-name= "#{translate(params[:name])}  #{Entry.where(name: params[:name], date: @days_filter).order(:date).last&.price&.round(2)} zł"
+  %div.dropdown
+    %button.dropbtn
+      %i.material-icons schedule
+      %div.dropdown-content
+        %a{ href: entries_path(name: params[:name], date: 7), title: "Tydzień" }
+          %strong
+            Tydzień
+        %a{ href: entries_path(name: params[:name], date: 30), title: "Miesiąc" }
+          %strong
+            Miesiąc
+        %a{ href: entries_path(name: params[:name], date: 365), title: "Rok" }
+          %strong
+            Rok
+%article#chart-place
+  = line_chart Entry.where(name: params[:name], date: @days_filter).group_by_day(:date).sum(:price), width: "99.7%", height: "400px", points: false
+
+%p{style: "color: green"}= notice
+%table#entries
+  %tr 
+    %th 
+      PLN
+    %th 
+      EUR
+    %th 
+      USD
+    %th 
+      Data
+
+  - @entries.where(name: params[:name], date: @days_filter).each do |entry|
+    = render entry

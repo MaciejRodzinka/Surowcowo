@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "chartkick": "^4.2.0",
+    "highcharts": "^10.2.1"
+  }
+}

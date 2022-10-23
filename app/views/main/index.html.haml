@@ -1,0 +1,155 @@
+%header.navigation
+  %div.logo-container
+    %h1.logo Surowcowo           
+  %div.dropdown
+    %button.dropbtn
+      %i.material-icons account_balance_wallet
+      %div.dropdown-content
+        %a{ href: root_path, title: "PLN" }
+          %strong
+            PLN
+        %a{ href: root_path(currency: 'eur'), title: "EUR" }
+          %i.material-icons euro_symbol
+        %a{ href: root_path(currency: 'usd'), title: "USD" }
+          %i.material-icons attach_money
+%div.resources-up
+  %div.coal-resource
+    %a.coal-item{ href: entries_path(name: 'coal') }
+      %h1.coal=translate('coal')
+      %h2.coal_price{ class: [@coal_price_color.present? && @coal_price_color] }= "#{(Entry.where(name: 'coal').order(:date).last&.price / @currency_exchange_rate).round(2)} #{@currency}/t"
+      - days_filter = params[:entry_name] == 'coal' ? @days_filter : 30.days.ago..Time.now
+      = line_chart Entry.where(name: 'coal', date: days_filter).group_by_day(:date).sum(:price), width: "95%", height: "120px", points: false, loading: "Trwa wczytywanie cen węgla..."
+    %div.date-buttonsw  
+      %a{ href: root_path(entry_name: 'coal', date: 7), title: "Tydzień" }
+        %button.weekbtn
+          %strong
+            Tydzień
+      %a{ href: root_path(entry_name: 'coal', date: 30), title: "Miesiąc" }
+        %button.weekbtn
+          %strong
+            Miesiąc
+      %a{ href: root_path(entry_name: 'coal', date: 365), title: "Rok" }
+        %button.weekbtn
+          %strong
+            Rok
+          
+  %div.gas-resource
+    %a.gas-item{ href: entries_path(name: 'gas') }
+      %h1.gas=translate('gas')
+      %h2.gas_price{ class: [@gas_price_color.present? && @gas_price_color] }= "#{(Entry.where(name: 'gas').order(:date).last&.price / @currency_exchange_rate).round(2)} #{@currency}/m3"
+      - days_filter = params[:entry_name] == 'gas' ? @days_filter : 30.days.ago..Time.now
+      = line_chart Entry.where(name: 'gas', date: days_filter).group_by_day(:date).sum(:price), width: "95%", height: "120px", points: false, loading: "Trwa wczytywanie cen gazu..."
+    %div.date-buttons
+      %a{ href: root_path(entry_name: 'gas', date: 7), title: "Tydzień" }
+        %button.weekbtn
+          %strong
+            Tydzień
+      %a{ href: root_path(entry_name: 'gas', date: 30), title: "Miesiąc" }
+        %button.weekbtn
+          %strong
+            Miesiąc
+      %a{ href: root_path(entry_name: 'gas', date: 365), title: "Rok" }
+        %button.weekbtn
+          %strong
+            Rok
+
+  %div.electricity-resource
+    %a.electricity-item{ href: entries_path(name: 'electricity') }
+      %h1.electricity=translate('electricity')
+      %h2.electricity_price{ class: [@electricity_price_color.present? && @electricity_price_color] }= "#{(Entry.where(name: 'electricity').order(:date).last&.price / @currency_exchange_rate).round(2)} #{@currency}/kWH"
+      - days_filter = params[:entry_name] == 'electricity' ? @days_filter : 30.days.ago..Time.now
+      = line_chart Entry.where(name: 'electricity', date: days_filter).group_by_day(:date).sum(:price), width: "95%", height: "120px", points: false, loading: "Trwa wczytywanie cen prądu..."
+    %div.date-buttons
+      %a{ href: root_path(entry_name: 'electricity', date: 7), title: "Tydzień" }
+        %button.weekbtn
+          %strong
+            Tydzień
+      %a{ href: root_path(entry_name: 'electricity', date: 30), title: "Miesiąc" }
+        %button.weekbtn
+          %strong
+            Miesiąc
+      %a{ href: root_path(entry_name: 'electricity', date: 365), title: "Rok" }
+        %button.weekbtn
+          %strong
+            Rok
+  
+%div.resources-down
+  %div.pb95-resource
+    %a.pb95-item{ href: entries_path(name: 'pb95') }
+      %h1.pb95=translate('pb95')
+      %h2.pb95_price{ class: [@pb95_price_color.present? && @pb95_price_color] }= "#{(Entry.where(name: 'pb95').order(:date).last&.price / @currency_exchange_rate).round(2)} #{@currency}/l"
+      - days_filter = params[:entry_name] == 'pb95' ? @days_filter : 30.days.ago..Time.now
+      = line_chart Entry.where(name: 'pb95', date: days_filter).group_by_day(:date).sum(:price), width: "95%", height: "120px", points: false, loading: "Trwa wczytywanie cen Pb95..."
+    %div.date-buttons
+      %a{ href: root_path(entry_name: 'pb95', date: 7), title: "Tydzień" }
+        %button.weekbtn
+          %strong
+            Tydzień
+      %a{ href: root_path(entry_name: 'pb95', date: 30), title: "Miesiąc" }
+        %button.weekbtn
+          %strong
+            Miesiąc
+      %a{ href: root_path(entry_name: 'pb95', date: 365), title: "Rok" }
+        %button.weekbtn
+          %strong
+            Rok
+
+  %div.pb98-resource
+    %a.pb98-item{ href: entries_path(name: 'pb98') }
+      %h1.pb98=translate('pb98')
+      %h2.pb98_price{ class: [@pb98_price_color.present? && @pb98_price_color] }= "#{(Entry.where(name: 'pb98').order(:date).last&.price / @currency_exchange_rate).round(2)} #{@currency}/l"
+      - days_filter = params[:entry_name] == 'pb98' ? @days_filter : 30.days.ago..Time.now
+      = line_chart Entry.where(name: 'pb98', date: days_filter).group_by_day(:date).sum(:price), width: "95%", height: "120px", points: false, loading: "Trwa wczytywanie cen Pb98..."
+    %div.date-buttons
+      %a{ href: root_path(entry_name: 'pb98', date: 7), title: "Tydzień" }
+        %button.weekbtn
+          %strong
+            Tydzień
+      %a{ href: root_path(entry_name: 'pb98', date: 30), title: "Miesiąc" }
+        %button.weekbtn
+          %strong
+            Miesiąc
+      %a{ href: root_path(entry_name: 'pb98', date: 365), title: "Rok" }
+        %button.weekbtn
+          %strong
+            Rok
+
+  %div.on-resource
+    %a.on-item{ href: entries_path(name: 'on') }
+      %h1.on=translate('on')
+      %h2.on_price{ class: [@on_price_color.present? && @on_price_color] }= "#{(Entry.where(name: 'on').order(:date).last&.price / @currency_exchange_rate).round(2)} #{@currency}/l"
+      - days_filter = params[:entry_name] == 'on' ? @days_filter : 30.days.ago..Time.now
+      = line_chart Entry.where(name: 'on', date: days_filter).group_by_day(:date).sum(:price), width: "95%", height: "120px", points: false, loading: "Trwa wczytywanie cen On..."
+    %div.date-buttons
+      %a{ href: root_path(entry_name: 'on', date: 7), title: "Tydzień" }
+        %button.weekbtn
+          %strong
+            Tydzień
+      %a{ href: root_path(entry_name: 'on', date: 30), title: "Miesiąc" }
+        %button.weekbtn
+          %strong
+            Miesiąc
+      %a{ href: root_path(entry_name: 'on', date: 365), title: "Rok" }
+        %button.weekbtn
+          %strong
+            Rok
+
+  %div.lpg-resource
+    %a.lpg-item{ href: entries_path(name: 'lpg') }
+      %h1.lpg=translate('lpg')
+      %h2.lpg_price{ class: [@lpg_price_color.present? && @lpg_price_color] }= "#{(Entry.where(name: 'lpg').order(:date).last&.price / @currency_exchange_rate).round(2)} #{@currency}/l"
+      - days_filter = params[:entry_name] == 'lpg' ? @days_filter : 30.days.ago..Time.now
+      = line_chart Entry.where(name: 'lpg', date: days_filter).group_by_day(:date).sum(:price), width: "95%", height: "120px", points: false, loading: "Trwa wczytywanie cen LPG..."
+    %div.date-buttons
+      %a{ href: root_path(entry_name: 'lpg', date: 7), title: "Tydzień" }
+        %button.weekbtn
+          %strong
+            Tydzień
+      %a{ href: root_path(entry_name: 'lpg', date: 30), title: "Miesiąc" }
+        %button.weekbtn
+          %strong
+            Miesiąc
+      %a{ href: root_path(entry_name: 'lpg', date: 365), title: "Rok" }
+        %button.weekbtn
+          %strong
+            Rok
